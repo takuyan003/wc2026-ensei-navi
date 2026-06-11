@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a1f44">
 <meta name="description" content="北中米W杯2026に現地参戦する日本人サポーターのための遠征ナビ。試合前・入場前・帰宅・はぐれた時・緊急時の行動モード付き。オフライン対応。">
-<title>W杯遠征ナビ 2026 — 日本人サポーターの現地観戦ガイド</title>
+<title>遠征ナビ 2026 — 北中米サッカー観戦・日本人サポーターの現地ガイド</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="app-header">
-  <h1>⚽ W杯遠征ナビ <span class="year">2026</span></h1>
+  <h1>遠征ナビ <span class="year">2026</span></h1>
   <p class="tagline">非公式の個人制作ファンガイド。FIFAおよび各団体とは関係ありません</p>
 </header>
 
@@ -20,11 +20,26 @@
 <div id="mode-overlay" class="mode-overlay hidden"></div>
 
 <nav class="tabbar" id="tabbar">
-  <button data-tab="today" class="active"><span class="icon">📅</span>今日</button>
-  <button data-tab="japan"><span class="icon">🇯🇵</span>日本代表</button>
-  <button data-tab="stadiums"><span class="icon">🏟️</span>スタジアム</button>
-  <button data-tab="tip"><span class="icon">💵</span>チップ</button>
-  <button data-tab="info"><span class="icon">🧳</span>遠征メモ</button>
+  <button data-tab="today" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15.5" r="1.6" fill="currentColor" stroke="none"/></svg>
+    今日
+  </button>
+  <button data-tab="japan">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.6 16 10.5l-1.5 4.7h-5L8 10.5z"/><path d="M12 3v4.6M16 10.5l4.3-1.4M14.5 15.2l2.7 3.8M9.5 15.2l-2.7 3.8M8 10.5 3.7 9.1"/></svg>
+    日本代表
+  </button>
+  <button data-tab="stadiums">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+    スタジアム
+  </button>
+  <button data-tab="tip">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11M15.2 8.8c-.6-1-1.8-1.6-3.2-1.6-1.8 0-3.2 1-3.2 2.5 0 3.4 6.6 1.7 6.6 5 0 1.5-1.5 2.6-3.4 2.6-1.6 0-2.9-.7-3.5-1.8"/></svg>
+    チップ
+  </button>
+  <button data-tab="info">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="13" rx="3"/><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5M3.5 12.5h17"/></svg>
+    遠征メモ
+  </button>
 </nav>
 
 <script src="data.js"></script>

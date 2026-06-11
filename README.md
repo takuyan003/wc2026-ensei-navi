@@ -99,9 +99,16 @@ python3 -m http.server 8765
 
 ---
 
+## 公開URL
+
+**https://takuyan003.github.io/wc2026-ensei-navi/**
+
+GitHub Pages（リポジトリ: takuyan003/wc2026-ensei-navi、mainブランチ直下）。
+更新は main にプッシュすれば1〜2分で自動反映。sw.js の CACHE バージョンを上げるのを忘れずに。
+
 ## 残タスク
 
-- [ ] **デプロイ**（候補: GitHub Pages / Netlify / Vercel — 選定待ち）
+- [x] **デプロイ** — GitHub Pagesで公開済み（2026-06-12）
 - [ ] グループステージ終了後（6/27〜）、日本の決勝トーナメント進出が決まったら `data.js` にノックアウトの試合を追加
 - [ ] アイコンのPNG版作成（iOS用 apple-touch-icon）、OGP画像（SNSシェア用）
 - [ ] 全104試合の日程表示（現状は日本戦のみ）※拡張案

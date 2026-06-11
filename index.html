@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1f44">
+<meta name="description" content="北中米W杯2026に現地参戦する日本人サポーターのための遠征ナビ。試合前・入場前・帰宅・はぐれた時・緊急時の行動モード付き。オフライン対応。">
+<title>W杯遠征ナビ 2026 — 日本人サポーターの現地観戦ガイド</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="app-header">
+  <h1>⚽ W杯遠征ナビ <span class="year">2026</span></h1>
+  <p class="tagline">非公式の個人制作ファンガイド。FIFAおよび各団体とは関係ありません</p>
+</header>
+
+<main id="view"></main>
+
+<div id="mode-overlay" class="mode-overlay hidden"></div>
+
+<nav class="tabbar" id="tabbar">
+  <button data-tab="today" class="active"><span class="icon">📅</span>今日</button>
+  <button data-tab="japan"><span class="icon">🇯🇵</span>日本代表</button>
+  <button data-tab="stadiums"><span class="icon">🏟️</span>スタジアム</button>
+  <button data-tab="tip"><span class="icon">💵</span>チップ</button>
+  <button data-tab="info"><span class="icon">🧳</span>遠征メモ</button>
+</nav>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

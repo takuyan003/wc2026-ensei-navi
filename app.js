@@ -54,7 +54,7 @@ async function refreshRates() {
 const state = {
   tab: "today",
   stadiumFilter: "all",
-  tip: { country: "us", scene: "restaurant", pct: 20, amount: "", mode: "pct", tipAmt: "" },
+  tip: { country: "us", scene: "restaurant", pct: 20, amount: "" },
   mode: null,
 };
 
@@ -342,7 +342,7 @@ function renderStadiums() {
 
 // ===== チップ計算タブ =====
 function renderTip() {
-  const { country, scene, pct, amount, mode, tipAmt } = state.tip;
+  const { country, scene, pct, amount } = state.tip;
   const guide = TIP_GUIDE[country];
   const sceneData = guide.scenes[scene];
   const amt = parseFloat(amount) || 0;
@@ -353,26 +353,6 @@ function renderTip() {
       <div class="tip-result">
         <div class="big">現金で渡す</div>
         <div class="sub">${sceneData.note}</div>
-      </div>`;
-  } else if (mode === "amt") {
-    const tip = parseFloat(tipAmt) || 0;
-    const total = amt + tip;
-    const jpy = Math.round(total * rates[guide.currency]);
-    const tipJpy = Math.round(tip * rates[guide.currency]);
-    const realPct = amt > 0 ? (tip / amt * 100) : 0;
-    const [lo, hi] = [sceneData.pct[0], sceneData.pct[sceneData.pct.length - 1]];
-    let pctHint = "";
-    if (amt > 0 && tip > 0) {
-      if (realPct < lo) pctHint = `<span style="color:var(--gold)">相場（${lo}〜${hi}%）より少なめ</span>`;
-      else if (realPct > hi + 5) pctHint = `<span style="color:var(--gold)">相場（${lo}〜${hi}%）よりかなり多め</span>`;
-      else pctHint = `<span style="color:var(--green)">相場どおり 👍</span>`;
-    }
-    resultHtml = `
-      <div class="tip-result">
-        <div class="big">合計 ${guide.symbol}${total.toFixed(2)}</div>
-        <div class="sub">チップ ${guide.symbol}${tip.toFixed(2)}（≈ ${tipJpy.toLocaleString()}円）${amt > 0 && tip > 0 ? ` = 約${realPct.toFixed(1)}%` : ""}</div>
-        ${pctHint ? `<div class="sub" style="margin-top:4px">${pctHint}</div>` : ""}
-        <div class="jpy">合計 ≈ ${jpy.toLocaleString()} 円</div>
       </div>`;
   } else {
     const tip = amt * pct / 100;
@@ -403,33 +383,15 @@ function renderTip() {
       </div>
       ${sceneData.flat ? "" : `
       <div class="field">
-        <label>会計金額（${guide.currency}・税抜額がベター）</label>
-        <input type="number" id="tip-amount" inputmode="decimal" placeholder="0.00" value="${amount}">
+        <label>合計金額（${guide.currency}）</label>
+        <input type="number" id="tip-amount" inputmode="decimal" placeholder="例: 80" value="${amount}">
       </div>
       <div class="field">
-        <label>チップの決め方</label>
-        <div class="seg" id="tip-mode">
-          <button data-m="pct" class="${mode === "pct" ? "active" : ""}">％で計算</button>
-          <button data-m="amt" class="${mode === "amt" ? "active" : ""}">金額で入力</button>
+        <label>チップ率</label>
+        <div class="seg" id="tip-pct">
+          ${sceneData.pct.map(p => `<button data-p="${p}" class="${p === pct ? "active" : ""}">${p}%</button>`).join("")}
         </div>
-      </div>
-      ${mode === "amt" ? `
-      <div class="field">
-        <label>チップ額（${guide.currency}）</label>
-        <input type="number" id="tip-amt-custom" inputmode="decimal" placeholder="5.00" value="${tipAmt}">
-      </div>` : `
-      <div class="field">
-        <label>チップ率（タップ or 自由に入力）</label>
-        <div class="pct-row">
-          <div class="seg" id="tip-pct">
-            ${sceneData.pct.map(p => `<button data-p="${p}" class="${p === pct ? "active" : ""}">${p}%</button>`).join("")}
-          </div>
-          <div class="pct-input">
-            <input type="number" id="tip-pct-custom" inputmode="decimal" min="0" max="100" step="0.5" value="${pct}">
-            <span class="pct-unit">%</span>
-          </div>
-        </div>
-      </div>`}`}
+      </div>`}
       ${resultHtml}
       <div class="rate-note">レート: $1=${rates.USD.toFixed(1)}円 / C$1=${rates.CAD.toFixed(1)}円 / MXN1=${rates.MXN.toFixed(2)}円${ratesUpdatedAt ? `（${ratesUpdatedAt}時点・自動取得）` : "（概算・オフライン）"}</div>
     </div>
@@ -627,8 +589,6 @@ document.body.addEventListener("click", e => {
   if (s) { state.tip.scene = s.dataset.s; state.tip.pct = TIP_GUIDE[state.tip.country].scenes[s.dataset.s].pct[1]; render(); return; }
   const p = e.target.closest("#tip-pct button");
   if (p) { state.tip.pct = +p.dataset.p; render(); return; }
-  const m = e.target.closest("#tip-mode button");
-  if (m) { state.tip.mode = m.dataset.m; render(); return; }
 });
 
 document.body.addEventListener("input", e => {
@@ -638,25 +598,6 @@ document.body.addEventListener("input", e => {
     const pos = e.target.selectionStart;
     render();
     const input = $("#tip-amount");
-    if (input) { input.focus(); try { input.setSelectionRange(pos, pos); } catch (_) {} }
-    return;
-  }
-  // チップ額の直接入力
-  if (e.target.id === "tip-amt-custom") {
-    state.tip.tipAmt = e.target.value;
-    const pos = e.target.selectionStart;
-    render();
-    const input = $("#tip-amt-custom");
-    if (input) { input.focus(); try { input.setSelectionRange(pos, pos); } catch (_) {} }
-    return;
-  }
-  // チップ率の自由入力
-  if (e.target.id === "tip-pct-custom") {
-    const v = parseFloat(e.target.value);
-    state.tip.pct = isNaN(v) ? 0 : Math.min(100, Math.max(0, v));
-    const pos = e.target.selectionStart;
-    render();
-    const input = $("#tip-pct-custom");
     if (input) { input.focus(); try { input.setSelectionRange(pos, pos); } catch (_) {} }
     return;
   }

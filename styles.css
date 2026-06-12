@@ -80,13 +80,35 @@ button { font-family: inherit; color: inherit; }
   color: #fff;
   padding: calc(16px + env(safe-area-inset-top)) 20px 16px;
 }
-.app-header h1 {
-  font-size: 1.35rem;
+.logo-row { display: flex; align-items: center; gap: 12px; }
+.logo-mark { width: 46px; height: 46px; flex: 0 0 46px; filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35)); }
+.logo-eyebrow {
+  font-size: 0.58rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.32em;
+  color: #9db9fb;
+  text-transform: uppercase;
+  margin-bottom: 2px;
 }
-.app-header .year { color: var(--gold); }
-.tagline { font-size: 0.7rem; opacity: 0.65; margin-top: 4px; letter-spacing: 0.01em; }
+.logo-main {
+  font-size: 1.65rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff 30%, #bcd0f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.logo-main .year {
+  margin-left: 7px;
+  background: linear-gradient(180deg, #ffd970, #f0b429);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tagline { font-size: 0.68rem; opacity: 0.6; margin-top: 10px; letter-spacing: 0.01em; }
 
 main { padding: 18px 16px 0; max-width: 640px; margin: 0 auto; }
 

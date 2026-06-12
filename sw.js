@@ -1,8 +1,11 @@
-const CACHE = "ensei-navi-v13";
+const CACHE = "ensei-navi-v15";
 const ASSETS = ["./", "./index.html", "./styles.css", "./app.js", "./data.js", "./native.js", "./manifest.json", "./icon.svg"];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+  // cache:"reload" でブラウザHTTPキャッシュを無視し、必ずネットワークから最新を取得する
+  e.waitUntil(caches.open(CACHE).then(c =>
+    c.addAll(ASSETS.map(u => new Request(u, { cache: "reload" })))
+  ));
   self.skipWaiting();
 });
 

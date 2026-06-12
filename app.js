@@ -345,7 +345,9 @@ function renderTip() {
   const { country, scene, pct, amount } = state.tip;
   const guide = TIP_GUIDE[country];
   const sceneData = guide.scenes[scene];
-  const amt = parseFloat(amount) || 0;
+  // 全角数字・全角ピリオドも受け付ける
+  const normalized = String(amount).replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0)).replace(/[．。]/g, ".");
+  const amt = parseFloat(normalized) || 0;
 
   let resultHtml;
   if (sceneData.flat) {
@@ -384,7 +386,7 @@ function renderTip() {
       ${sceneData.flat ? "" : `
       <div class="field">
         <label>合計金額（${guide.currency}）</label>
-        <input type="text" id="tip-amount" inputmode="decimal" autocomplete="off" placeholder="例: 80" value="${amount}">
+        <input type="number" id="tip-amount" inputmode="decimal" autocomplete="off" placeholder="例: 80" value="${amount}">
       </div>
       <div class="field">
         <label>チップ率</label>

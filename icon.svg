@@ -1,6 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#0a1f44"/>
-  <circle cx="256" cy="230" r="120" fill="#fff"/>
-  <circle cx="256" cy="230" r="40" fill="#e63946"/>
-  <text x="256" y="430" font-family="-apple-system, 'Hiragino Sans', sans-serif" font-size="84" font-weight="800" fill="#f4b942" text-anchor="middle">遠征</text>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15306b"/>
+      <stop offset="1" stop-color="#0a1f44"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <circle cx="256" cy="215" r="120" fill="#ffffff"/>
+  <path d="M256 155 302 189l-17.6 54.4h-56.8L210 189z" fill="#e63946"/>
+  <text x="256" y="436" font-family="-apple-system, 'Hiragino Sans', sans-serif" font-size="92" font-weight="800" fill="#f4b942" text-anchor="middle">応援ナビ</text>
 </svg>

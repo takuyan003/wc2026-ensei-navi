@@ -1,4 +1,4 @@
-const CACHE = "ensei-navi-v15";
+const CACHE = "ensei-navi-v17";
 const ASSETS = ["./", "./index.html", "./styles.css", "./app.js", "./data.js", "./native.js", "./manifest.json", "./icon.svg"];
 
 self.addEventListener("install", e => {

@@ -1,6 +1,6 @@
 {
-  "name": "W杯遠征ナビ 2026",
-  "short_name": "遠征ナビ",
+  "name": "日本代表応援ナビ2026",
+  "short_name": "応援ナビ",
   "description": "北中米W杯2026に現地参戦する日本人サポーターのための遠征ガイド",
   "start_url": ".",
   "display": "standalone",

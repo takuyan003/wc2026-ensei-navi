@@ -379,6 +379,32 @@ main { padding: 18px 16px 0; max-width: 640px; margin: 0 auto; }
   background: var(--card);
 }
 
+/* ---- tip pct row ---- */
+.pct-row { display: flex; gap: 8px; align-items: stretch; }
+.pct-row .seg { flex: 1; }
+.pct-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  border: 0.5px solid var(--hairline);
+  border-radius: 12px;
+  padding: 0 12px 0 4px;
+}
+.pct-input input {
+  width: 58px;
+  border: none;
+  background: transparent;
+  font-size: 1.02rem;
+  font-weight: 700;
+  text-align: right;
+  color: var(--text);
+  font-family: inherit;
+  padding: 10px 0;
+}
+.pct-input input:focus { outline: none; }
+.pct-input .pct-unit { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+
 /* ---- tip result ---- */
 .tip-result { text-align: center; padding: 20px 12px 10px; }
 .tip-result .big { font-size: 2.1rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }

@@ -384,7 +384,7 @@ function renderTip() {
       ${sceneData.flat ? "" : `
       <div class="field">
         <label>合計金額（${guide.currency}）</label>
-        <input type="number" id="tip-amount" inputmode="decimal" placeholder="例: 80" value="${amount}">
+        <input type="text" id="tip-amount" inputmode="decimal" autocomplete="off" placeholder="例: 80" value="${amount}">
       </div>
       <div class="field">
         <label>チップ率</label>

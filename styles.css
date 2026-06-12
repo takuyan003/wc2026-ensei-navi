@@ -374,6 +374,7 @@ main { padding: 18px 16px 0; max-width: 640px; margin: 0 auto; }
 }
 .field input[type="number"]::-webkit-inner-spin-button,
 .field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.field input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
 .field input:focus, .field textarea:focus {
   outline: none;
   border-color: var(--blue);

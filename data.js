@@ -274,22 +274,48 @@ const MODES = {
 // ===== 現地イベント・日本人コミュニティ情報 =====
 // 2026-06-12時点でWeb確認済み。開催情報は変わるためリンク先で最新確認を促す
 const EVENTS = [
-  { cityIds: ["dallas"], icon: "🎪", name: "FIFAファンフェスティバル ダラス",
+  { cityIds: ["dallas"], icon: "🎪", name: "公式ファンフェスティバル ダラス",
     place: "Fair Park（1818 1st Ave, Dallas）", period: "6/11〜7/19（試合のない日は休み）",
-    note: "全104試合を巨大スクリーンで観戦できる公式ファンゾーン。入場無料だが事前のチケット取得が必要",
-    url: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/fifa-fan-festival/dallas" },
-  { cityIds: ["dallas"], icon: "🏘️", name: "ダラス日本人会（DJA）のW杯関連イベント",
-    place: "ダラス近郊", period: "大会期間中・随時",
-    note: "約1,000世帯の日本人コミュニティ。オランダ戦直前のスタジアムツアー企画（6/10）など、日本人向けイベントの実績あり。最新の告知は公式サイトで",
-    url: "https://godja.org/" },
-  { cityIds: ["dallas"], icon: "🍻", name: "Hearsay Arlington（スタジアム至近のバー）",
-    place: "1711 E Randol Mill Rd, Arlington（AT&Tスタジアム近く）", period: "毎日 16時〜深夜",
-    note: "ライブ演奏のあるレストラン＆バー。日本語でファン向け情報も発信している。観戦イベントの有無は訪問前に店舗サイトで確認を",
-    url: "https://hearsayarlington.com/" },
-  { cityIds: ["monterrey"], icon: "🎪", name: "FIFAファンフェスティバル モンテレイ",
+    note: "全試合を巨大スクリーンで観戦できる公式ファンゾーン。入場無料だが事前のチケット取得が必要",
+    url: "https://www.fairparkdallas.com/" },
+  { cityIds: ["monterrey"], icon: "🎪", name: "公式ファンフェスティバル モンテレイ",
     place: "Parque Fundidora（フンディドーラ公園）", period: "6/11〜7/19",
     note: "一般入場は無料・登録不要（先着順）。メトロ1号線「Y Griega」駅から徒歩数分。無料コンサートも多数",
     url: "https://www.fifafanfestivalmonterrey.com/en" },
+  { cityIds: ["dallas"], icon: "🏘️", name: "ダラス日本人会（DJA）",
+    place: "ダラス近郊", period: "通年",
+    note: "約1,000世帯の日本人コミュニティ。オランダ戦直前のスタジアムツアー企画（6/10）など日本人向けイベントの実績あり。現地の最新情報・交流の入口に",
+    url: "https://godja.org/" },
+];
+
+// ===== 現地の日本国総領事館・大使館（緊急時の頼れる公式窓口・2026-06-12検証済み） =====
+const CONSULATES = [
+  { cityIds: ["dallas"], name: "在ヒューストン日本国総領事館",
+    tel: "+1-713-652-2977", area: "テキサス州・オクラホマ州を管轄（ダラス／アーリントンの会場はここ）",
+    note: "パスポート紛失・事件事故など緊急時は24時間対応。住所: 909 Fannin St, Suite 3000, Houston, TX 77010",
+    url: "https://www.houston.us.emb-japan.go.jp/" },
+  { cityIds: ["monterrey"], name: "在メキシコ日本国大使館（メキシコシティ）",
+    tel: "+52-55-5211-0028", area: "モンテレイには日本の領事館がないため、緊急時の連絡先はメキシコシティの大使館",
+    note: "パスポート紛失・トラブル時はまずここへ連絡。遠方なので渡墨前にたびレジ登録を",
+    url: "https://www.mx.emb-japan.go.jp/" },
+];
+
+// ===== グループF 全試合（日本の突破を左右する他チームの試合も含む・ET基準をUTC化） =====
+const GROUP_F = [
+  { md: 1, utc: "2026-06-14T20:00:00Z", home: "オランダ", away: "日本", stadiumId: "dallas", jp: true },
+  { md: 1, utc: "2026-06-15T02:00:00Z", home: "スウェーデン", away: "チュニジア", stadiumId: "monterrey", jp: false },
+  { md: 2, utc: "2026-06-20T17:00:00Z", home: "オランダ", away: "スウェーデン", stadiumId: "houston", jp: false },
+  { md: 2, utc: "2026-06-21T04:00:00Z", home: "チュニジア", away: "日本", stadiumId: "monterrey", jp: true },
+  { md: 3, utc: "2026-06-25T23:00:00Z", home: "日本", away: "スウェーデン", stadiumId: "dallas", jp: true },
+  { md: 3, utc: "2026-06-25T23:00:00Z", home: "チュニジア", away: "オランダ", stadiumId: "kansascity", jp: false },
+];
+
+// ===== 大会フォーマット（FACTCHECK.md検証済み） =====
+const TOURNAMENT_FORMAT = [
+  { icon: "🌎", label: "史上最大の48チーム・全104試合。米国11・メキシコ3・カナダ2の16会場で開催" },
+  { icon: "🔢", label: "4チーム×12組のグループステージ（6/11〜6/27）" },
+  { icon: "🆙", label: "各組の上位2チーム＋3位の成績上位8チーム＝計32チームがラウンド32へ進出" },
+  { icon: "🏆", label: "決勝は7/19・ニューヨーク／ニュージャージー。日本の最高成績はベスト16（過去4回）" },
 ];
 
 // ===== 公式リンク集 =====

@@ -145,15 +145,18 @@ function renderToday() {
     html += `<div class="card countdown-card"><div class="matchup">グループステージ全日程終了</div><div class="venue-line">ノックアウトの組み合わせは「日本代表」タブへ</div></div>`;
   }
 
-  // 現地イベント（次の試合の都市）
+  // 現地情報（次の試合の都市）
   if (next) {
     const cityEvents = EVENTS.filter(ev => ev.cityIds.includes(next.stadiumId));
-    if (cityEvents.length) {
+    const cityConsulate = CONSULATES.find(c => c.cityIds.includes(next.stadiumId));
+    if (cityEvents.length || cityConsulate) {
       const st2 = stadiumById(next.stadiumId);
+      const cityName = st2.city.split("（")[0].split(" (")[0];
       html += `
         <div class="card">
-          <h3 style="font-size:1rem;margin-bottom:4px">🎉 ${st2.city.split("（")[0].split(" (")[0]}の現地イベント</h3>
-          ${eventItems(cityEvents)}
+          <h3 style="font-size:1rem;margin-bottom:4px">📍 ${cityName}の現地情報</h3>
+          ${cityEvents.length ? eventItems(cityEvents) : ""}
+          ${cityConsulate ? `<div class="ev-item"><div class="ev-name">🛂 ${cityConsulate.name}</div><div class="ev-note">${cityConsulate.area}</div><a class="ev-link" href="tel:${telDigits(cityConsulate.tel)}">📞 ${cityConsulate.tel}（緊急時）</a></div>` : ""}
         </div>`;
     }
   }
@@ -215,6 +218,26 @@ function renderToday() {
   return html;
 }
 
+function telDigits(tel) { return tel.replace(/[^+\d]/g, ""); }
+
+function renderGroupF() {
+  const now = new Date();
+  let h = `<div class="section-title">グループF 全試合（日本時間）</div><div class="card">`;
+  let lastMd = 0;
+  for (const m of GROUP_F) {
+    if (m.md !== lastMd) { h += `<div class="gf-md">第${m.md}節</div>`; lastMd = m.md; }
+    const st = stadiumById(m.stadiumId);
+    const dt = new Date(m.utc);
+    const done = dt < now;
+    h += `<div class="gf-row ${m.jp ? "gf-jp" : ""}">
+      <div class="gf-teams">${m.home} <span class="gf-vs">vs</span> ${m.away}${m.jp ? ' <span class="gf-badge">日本</span>' : ""}</div>
+      <div class="gf-meta">${fmtInTz(dt, "Asia/Tokyo")}　📍${st.known}${done ? "　・終了" : ""}</div>
+    </div>`;
+  }
+  h += `<p class="note" style="margin-top:10px">💡 ライバルの試合結果で、日本の順位や「3位通過」の可否が変わります。同組の試合も要チェック。</p></div>`;
+  return h;
+}
+
 // ===== 日本代表タブ =====
 function renderJapan() {
   const now = new Date();
@@ -239,6 +262,9 @@ function renderJapan() {
         <div class="note">📺 ${m.broadcast}</div>
       </div>`;
   }
+
+  // グループF 全試合
+  html += renderGroupF();
 
   // 勝ち点シミュレーター
   const labels = ["オランダ戦", "チュニジア戦", "スウェーデン戦"];
@@ -271,6 +297,10 @@ function renderJapan() {
       </div>
       <p class="note" style="text-align:center">※ 12組×4チーム制。各組2位以内＋3位の上位8チームがラウンド32へ</p>
     </div>`;
+
+  html += `<div class="section-title">大会フォーマット</div><div class="card">`;
+  html += TOURNAMENT_FORMAT.map(f => `<div class="s-row" style="padding:6px 0"><span class="s-ico">${f.icon}</span><span>${f.label}</span></div>`).join("");
+  html += `</div>`;
 
   html += `<div class="section-title">ノックアウトステージ</div><div class="card">`;
   html += KO_ROUNDS.map(r => `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:0.88rem"><b>${r.round}</b><span>${r.dates}</span></div>`).join("");
@@ -431,7 +461,19 @@ function renderInfo() {
     <div class="card info-card">
       <h3>🚨 緊急通報（3カ国共通）</h3>
       <div class="emg-num"><div class="n">911</div><div class="l">警察・消防・救急</div></div>
-      <p style="margin-top:10px">パスポート紛失・トラブル時は最寄りの日本国大使館・総領事館へ。渡航前に外務省「<b>たびレジ</b>」登録を推奨。</p>
+      <p style="margin-top:10px">事件事故・急病はまず911。渡航前に外務省「<b>たびレジ</b>」登録を推奨。</p>
+    </div>
+
+    <div class="card info-card">
+      <h3>🛂 現地の日本国総領事館・大使館</h3>
+      ${CONSULATES.map(c => `
+        <div class="ev-item">
+          <div class="ev-name">${c.name}</div>
+          <div class="ev-meta">${c.area}</div>
+          <div class="ev-note">${c.note}</div>
+          <a class="ev-link" href="tel:${telDigits(c.tel)}">📞 ${c.tel}</a>　<a class="ev-link" href="${c.url}" target="_blank" rel="noopener">公式サイト ↗</a>
+        </div>`).join("")}
+      <p class="note">パスポート紛失・事件事故など、911の後の手続きはこちらが窓口です。</p>
     </div>
 
     <div class="card info-card">

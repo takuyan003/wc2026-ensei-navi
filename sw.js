@@ -1,4 +1,4 @@
-const CACHE = "ensei-navi-v19";
+const CACHE = "ensei-navi-v20";
 const ASSETS = ["./", "./index.html", "./styles.css", "./app.js", "./data.js", "./native.js", "./manifest.json", "./icon.svg", "./apple-touch-icon.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {

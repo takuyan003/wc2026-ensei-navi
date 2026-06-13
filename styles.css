@@ -456,6 +456,16 @@ main { padding: 18px 16px 0; max-width: 640px; margin: 0 auto; }
 }
 .link-list a:last-child { border-bottom: none; }
 
+/* ---- group F schedule ---- */
+.gf-md { font-size: 0.72rem; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; margin: 12px 0 4px; }
+.gf-md:first-child { margin-top: 0; }
+.gf-row { padding: 9px 10px; border-radius: 10px; margin-bottom: 4px; }
+.gf-row.gf-jp { background: var(--blue-light); }
+.gf-teams { font-size: 0.95rem; font-weight: 700; }
+.gf-vs { color: var(--muted); font-weight: 600; font-size: 0.82rem; margin: 0 2px; }
+.gf-badge { font-size: 0.64rem; font-weight: 700; background: linear-gradient(180deg,#f0455a,var(--red)); color: #fff; border-radius: 99px; padding: 2px 8px; margin-left: 4px; vertical-align: 1px; }
+.gf-meta { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+
 /* ---- events ---- */
 .ev-item { padding: 12px 0; border-bottom: 0.5px solid var(--line); }
 .ev-item:first-of-type { padding-top: 4px; }

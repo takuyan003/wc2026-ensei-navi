@@ -506,6 +506,14 @@ function renderInfo() {
     </div>
 
     <div class="card info-card">
+      <h3>🚕 試合後の帰り方（混雑・サージ対策）</h3>
+      <ul>
+        ${TRANSPORT_TIPS.map(t => `<li>${t}</li>`).join("")}
+      </ul>
+      <p class="note">会場ごとの具体的な帰り方は「スタジアム」タブの各カード（🔙帰り方）に載せています。</p>
+    </div>
+
+    <div class="card info-card">
       <h3>💳 お金・通信</h3>
       <ul>
         <li>米加はほぼ完全キャッシュレス。タッチ決済対応クレカ必須</li>

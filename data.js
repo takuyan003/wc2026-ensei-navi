@@ -165,7 +165,7 @@ const TIP_GUIDE = {
 };
 
 // 為替レート初期値（オンライン時に自動更新・localStorageに保存）
-const DEFAULT_RATES = { USD: 150, CAD: 110, MXN: 8.0 };
+const DEFAULT_RATES = { USD: 160, CAD: 114, MXN: 9.3 };
 
 // ===== ノックアウトステージ日程（参考） =====
 const KO_ROUNDS = [

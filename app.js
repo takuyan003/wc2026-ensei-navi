@@ -599,8 +599,10 @@ function closeMode() {
 // ===== レンダリング＆イベント =====
 const renderers = { today: renderToday, japan: renderJapan, stadiums: renderStadiums, tip: renderTip, info: renderInfo };
 
+const GLOBAL_FOOTER = `<p class="disclaimer" style="opacity:.6;margin-top:8px">※本アプリは非公式の個人制作ガイドです。試合日程・会場の規定・交通・入国などの情報は変更される場合があります。重要な情報は必ず公式サイトで最新をご確認ください。</p>`;
+
 function render() {
-  $("#view").innerHTML = renderers[state.tab]();
+  $("#view").innerHTML = renderers[state.tab]() + GLOBAL_FOOTER;
 }
 
 $("#tabbar").addEventListener("click", e => {

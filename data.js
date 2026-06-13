@@ -156,7 +156,7 @@ const TIP_GUIDE = {
   mx: {
     label: "🇲🇽 メキシコ", currency: "MXN", symbol: "$",
     scenes: {
-      restaurant: { label: "レストラン", pct: [10, 15, 20], note: "10〜15%が標準（propina）" },
+      restaurant: { label: "レストラン", pct: [10, 15, 20], note: "10〜15%が標準" },
       taxi: { label: "タクシー/配車", pct: [0, 10, 15], note: "タクシーは基本チップ不要・配車は任意" },
       bar: { label: "バー", pct: [10, 15, 20], note: "" },
       hotel: { label: "ホテル清掃", pct: [0, 0, 0], note: "清掃20〜50ペソ/泊を現金で", flat: true },

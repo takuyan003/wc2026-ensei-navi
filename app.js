@@ -10,6 +10,8 @@ function fmtInTz(date, tz, opts = {}) {
     ...opts,
   }).format(date);
 }
+function timeInTz(date, tz) { return fmtInTz(date, tz, { month: undefined, day: undefined, weekday: undefined }); }
+function dayInTz(date, tz) { return fmtInTz(date, tz, { hour: undefined, minute: undefined }); }
 function clockInTz(tz) {
   return new Intl.DateTimeFormat("ja-JP", { timeZone: tz, hour: "2-digit", minute: "2-digit" }).format(new Date());
 }
@@ -142,7 +144,22 @@ function renderToday() {
     }
     html += `<div class="card"><h3 style="font-size:1rem;margin-bottom:6px">📝 今日やること</h3><ul class="todo-list">${todos.map(t => `<li>${t}</li>`).join("")}</ul></div>`;
   } else {
-    html += `<div class="card countdown-card"><div class="matchup">グループステージ全日程終了</div><div class="venue-line">ノックアウトの組み合わせは「日本代表」タブへ</div></div>`;
+    html += `
+      <div class="card countdown-card board-card">
+        <div class="board-label">グループF ・ 日本の3試合</div>
+        ${JAPAN_MATCHES.map(m => {
+          const s = stadiumById(m.stadiumId);
+          const d = new Date(m.utc);
+          const opp = m.home === "日本" ? m.away : m.home;
+          return `<div class="board-row">
+            <div class="board-no">${m.no.replace("GS ", "")}</div>
+            <div class="board-vs">vs ${opp}</div>
+            <div class="board-when"><span>${dayInTz(d, s.tz)}</span><span>${s.known}</span></div>
+          </div>`;
+        }).join("")}
+        <p class="board-note">グループステージの日本戦はすべて終了しました。ノックアウトステージの日程はこのアプリに掲載していません。</p>
+        <button class="board-link" data-goto="japan">日本戦の詳細を見る ›</button>
+      </div>`;
   }
 
   // 現地情報（次の試合の都市）
@@ -253,10 +270,12 @@ function renderJapan() {
           <span class="match-no">${m.no}</span>
           <span class="match-status">${done ? "終了" : "予定"}</span>
         </div>
-        <div class="match-teams">${m.home} vs ${m.away}</div>
-        <div class="match-times">
-          <div class="time-box"><div class="tz">🏟️ 現地時間</div><div class="t">${fmtInTz(dt, st.tz)}</div></div>
-          <div class="time-box"><div class="tz">🇯🇵 日本時間</div><div class="t">${fmtInTz(dt, "Asia/Tokyo")}</div></div>
+        <div class="match-teams">
+          <span class="${m.home === "日本" ? "jp" : ""}">${m.home}</span><span class="vs">VS</span><span class="${m.away === "日本" ? "jp" : ""}">${m.away}</span>
+        </div>
+        <div class="kick">
+          <div class="kick-main"><div class="tz">🏟️ 現地時間</div><div class="kick-time">${timeInTz(dt, st.tz)}</div><div class="kick-date">${dayInTz(dt, st.tz)}</div></div>
+          <div class="kick-sub"><div class="tz">🇯🇵 日本時間</div><div class="kick-time-s">${timeInTz(dt, "Asia/Tokyo")}</div><div class="kick-date">${dayInTz(dt, "Asia/Tokyo")}</div></div>
         </div>
         <div class="match-venue">📍 ${st.fifaName}<br>　通称: ${st.known} / ${st.city}</div>
         <div class="note">📺 ${m.broadcast}</div>
@@ -325,12 +344,12 @@ function stadiumCard(s, jpLabels) {
   return `
     <div class="card stadium-card">
       <div class="s-head">
-        <div>
-          <h3>${s.known}${jpLabels[s.id] ? `<span class="badge-jp">日本戦 ${jpLabels[s.id]}</span>` : ""}</h3>
-          <div class="s-city">${s.fifaName}<br>${s.city} ・ ${COUNTRY_LABEL[s.country]}</div>
+        <div class="s-title">
+          <h3>${s.known}</h3>${jpLabels[s.id] ? `<span class="badge-jp">日本戦 ${jpLabels[s.id]}</span>` : ""}
         </div>
         <div class="s-now">現地 ${clockInTz(s.tz)}</div>
       </div>
+      <div class="s-city">${s.fifaName}<br>${s.city} ・ ${COUNTRY_LABEL[s.country]}</div>
       <div class="s-rows">
         <div class="s-row"><span class="s-ico">🚇</span><span>${s.access}</span></div>
         <div class="s-row"><span class="s-ico">🌡️</span><span>${s.heat}</span></div>
@@ -616,6 +635,9 @@ $("#tabbar").addEventListener("click", e => {
 
 document.body.addEventListener("click", e => {
   // モードを開く
+  const goto = e.target.closest("[data-goto]");
+  if (goto) { $(`#tabbar button[data-tab="${goto.dataset.goto}"]`).click(); return; }
+
   const modeBtn = e.target.closest("[data-mode]");
   if (modeBtn) { openMode(modeBtn.dataset.mode); return; }
 
